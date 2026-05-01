@@ -1,0 +1,67 @@
+import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/db";
+import { getCurrentUser } from "@/lib/getCurrentUser";
+import {
+  createWorkspace,
+  getUserWorkspaces,
+} from "@/services/workspace.service";
+
+export async function POST(req: Request) {
+  try {
+    await connectDB();
+
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json();
+
+    if (!body.name || body.name.trim() === "") {
+      return NextResponse.json(
+        { message: "Workspace name required" },
+        { status: 400 },
+      );
+    }
+
+    const data = await createWorkspace({
+      name: body.name,
+      userId: (user as any).userId,
+    });
+
+    return NextResponse.json({ success: true, data });
+  } catch (err) {
+    return NextResponse.json(
+      { message: "Error creating workspace" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    console.log("➡️ API HIT");
+    await connectDB();
+
+    const user = await getCurrentUser();
+    console.log("USER:", user);
+    if (!user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const workspaces = await getUserWorkspaces(user.userId);
+    console.log("WORKSPACES:", workspaces);
+
+    return NextResponse.json({ success: true, data: workspaces });
+  } catch (err: any) {
+    console.error("❌ FULL ERROR:", {
+      message: err.message,
+      stack: err.stack,
+      name: err.name,
+    });
+    return NextResponse.json(
+      { message: err.message || "Error fetching workspaces" },
+      { status: 500 },
+    );
+  }
+}

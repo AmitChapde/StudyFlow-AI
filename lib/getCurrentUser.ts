@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-import { verifyToken } from "./auth";
+import { verifyToken, JWTPayload } from "./auth";
 
-export async function getCurrentUser() {
+export async function getCurrentUser(): Promise<JWTPayload | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
