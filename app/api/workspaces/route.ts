@@ -39,8 +39,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  try {
-    console.log("➡️ API HIT");
+  try { 
     await connectDB();
 
     const user = await getCurrentUser();
@@ -50,15 +49,10 @@ export async function GET() {
     }
 
     const workspaces = await getUserWorkspaces(user.userId);
-    console.log("WORKSPACES:", workspaces);
+   
 
     return NextResponse.json({ success: true, data: workspaces });
   } catch (err: any) {
-    console.error("❌ FULL ERROR:", {
-      message: err.message,
-      stack: err.stack,
-      name: err.name,
-    });
     return NextResponse.json(
       { message: err.message || "Error fetching workspaces" },
       { status: 500 },

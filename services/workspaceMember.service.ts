@@ -16,4 +16,4 @@ export const createWorkspaceMember = async ({
     userId: userObjectId,
     role,
   });
-};
+}; 

@@ -1,49 +1,68 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Sparkles } from "lucide-react";
+import { LayoutDashboard, BarChart3, PanelLeft } from "lucide-react";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 
-export default function Sidebar() {
+export default function Sidebar({ workspaceId }: { workspaceId?: string }) {
+  const [collapsed, setCollapsed] = useState(false);
+
+  // Add a debugging log to check workspaceId
+  console.log("Workspace ID:", workspaceId);
+
+  
+
   return (
-    <aside className="hidden md:flex flex-col w-64 h-screen border-r bg-white px-4 py-6">
-      
-    
-      <div className="mb-6">
-        <h2 className="text-xl font-bold tracking-tight">
-          StudyFlow AI
-        </h2>
-        <p className="text-xs text-gray-500">AI Study Workspace</p>
+    <aside
+      className={`hidden md:flex flex-col border-r bg-slate-900 text-white transition-all duration-300
+      ${collapsed ? "w-16" : "w-64"}`}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-4">
+        {!collapsed && <h2 className="text-lg font-bold">StudyFlow</h2>}
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          <PanelLeft size={18} />
+        </Button>
       </div>
 
       <Separator />
 
-    
-      <nav className="flex flex-col gap-2 mt-6">
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 transition cursor-pointer"
-        >
-          <LayoutDashboard size={18} />
-          Dashboard
-        </Link>
+      {/* Navigation */}
+      <div className="flex-1 overflow-y-auto px-2 mt-4">
+        <nav className="flex flex-col gap-2">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100"
+          >
+            <LayoutDashboard size={18} />
+            {!collapsed && "Workspaces"}
+          </Link>
 
        
-        {/* <Link
-          href="#"
-          className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-400 cursor-not-allowed"
-        >
-          <Sparkles size={18} />
-          AI Goals
-        </Link> */}
-      </nav>
+          {workspaceId && (
+            <Link
+              href={`/workspace/${workspaceId}/dashboard`}
+              className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100"
+            >
+              <BarChart3 size={18} />
+              {!collapsed && "Insights"}
+            </Link>
+          )}
+        </nav>
+      </div>
 
-      {/* Bottom Section */}
-      <div className="mt-auto">
+      {/* Footer */}
+      <div className="p-4">
         <Separator className="mb-4" />
-
-        <LogoutButton />
+        {!collapsed && <LogoutButton />}
       </div>
     </aside>
   );

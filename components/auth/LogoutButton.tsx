@@ -7,7 +7,7 @@ export default function LogoutButton() {
   return (
     <Button
       variant="outline"
-      className="w-full cursor-pointer hover:bg-gray-100"
+      className="w-full cursor-pointer text-red-700 hover:bg-gray-300"
       onClick={logout}
     >
       Logout

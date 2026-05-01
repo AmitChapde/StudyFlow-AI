@@ -8,10 +8,6 @@ import TaskList from "@/components/task/TaskList";
 import { ITask } from "@/types/task.types";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-
 export default function WorkspacePage() {
   const params = useParams();
   const workspaceId = params.id as string;
@@ -56,16 +52,7 @@ export default function WorkspacePage() {
 
   return (
     <div className="space-y-6 p-4 md:p-6">
-      <Link
-        href="/dashboard"
-        className="flex items-center gap-2 text-sm text-gray-500 hover:text-black"
-      >
-        <Button variant="outline" size="sm" className="px-2 cursor-pointer">
-          <ArrowLeft size={16} />
-          Back to Workspaces
-        </Button>
-      </Link>
-      {/* Header */}
+      
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold">{workspace.name}</h1>
         <p className="text-sm text-gray-500">
@@ -73,7 +60,7 @@ export default function WorkspacePage() {
         </p>
       </div>
 
-      {/* Create Goal */}
+  
       <Card>
         <CardContent className="p-6 space-y-4">
           <h2 className="text-lg font-medium">Create Goal & Generate Tasks</h2>
@@ -86,7 +73,7 @@ export default function WorkspacePage() {
         </CardContent>
       </Card>
 
-      {/* Tasks */}
+      
       <div className="space-y-3">
         <h2 className="text-lg font-medium">Tasks</h2>
 
@@ -99,7 +86,7 @@ export default function WorkspacePage() {
         )}
       </div>
 
-      {/* Back */}
+    
     </div>
   );
 }
