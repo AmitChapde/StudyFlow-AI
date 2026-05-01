@@ -23,7 +23,7 @@ export default function WorkspaceCard({
     <Link href={`/workspace/${workspace._id}`}>
       <Card className="hover:shadow-lg transition cursor-pointer group">
         <CardContent className="p-4 space-y-2">
-          {/* Title */}
+        
           <div className="flex justify-between items-center">
             <h2 className="font-medium text-lg">{workspace.name}</h2>
 
@@ -33,12 +33,12 @@ export default function WorkspaceCard({
             />
           </div>
 
-          {/* Role */}
+       
           <p className="text-sm text-gray-500">
             Role: <span className="font-medium">{role}</span>
           </p>
 
-          {/* Owner */}
+       
           <p className="text-xs text-gray-400">Owner: {ownerName}</p>
         </CardContent>
       </Card>

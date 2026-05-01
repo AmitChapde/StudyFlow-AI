@@ -6,8 +6,8 @@ import { apiFetch } from "@/lib/api";
 import CreateGoalForm from "@/components/goal/CreateGoalForm";
 import TaskList from "@/components/task/TaskList";
 import { ITask } from "@/types/task.types";
-
 import { Card, CardContent } from "@/components/ui/card";
+
 export default function WorkspacePage() {
   const params = useParams();
   const workspaceId = params.id as string;

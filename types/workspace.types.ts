@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import { Types } from "mongoose";
 
-
-
 export interface IUserPreview {
   _id: string;
   name: string;

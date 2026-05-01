@@ -10,17 +10,11 @@ import { Button } from "../ui/button";
 export default function Sidebar({ workspaceId }: { workspaceId?: string }) {
   const [collapsed, setCollapsed] = useState(false);
 
-  // Add a debugging log to check workspaceId
-  console.log("Workspace ID:", workspaceId);
-
-  
-
   return (
     <aside
       className={`hidden md:flex flex-col border-r bg-slate-900 text-white transition-all duration-300
       ${collapsed ? "w-16" : "w-64"}`}
     >
-      {/* Header */}
       <div className="flex items-center justify-between px-4 py-4">
         {!collapsed && <h2 className="text-lg font-bold">StudyFlow</h2>}
 
@@ -35,7 +29,6 @@ export default function Sidebar({ workspaceId }: { workspaceId?: string }) {
 
       <Separator />
 
-      {/* Navigation */}
       <div className="flex-1 overflow-y-auto px-2 mt-4">
         <nav className="flex flex-col gap-2">
           <Link
@@ -46,7 +39,6 @@ export default function Sidebar({ workspaceId }: { workspaceId?: string }) {
             {!collapsed && "Workspaces"}
           </Link>
 
-       
           {workspaceId && (
             <Link
               href={`/workspace/${workspaceId}/dashboard`}
@@ -59,7 +51,6 @@ export default function Sidebar({ workspaceId }: { workspaceId?: string }) {
         </nav>
       </div>
 
-      {/* Footer */}
       <div className="p-4">
         <Separator className="mb-4" />
         {!collapsed && <LogoutButton />}

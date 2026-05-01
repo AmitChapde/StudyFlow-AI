@@ -22,7 +22,7 @@ export default function SignUpForm() {
 
     try {
       if (!name || !email || !password) {
-        toast.error("All fields required");
+        toast.error("All fields are required");
         return;
       }
 

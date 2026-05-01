@@ -17,7 +17,7 @@ export default function CreateWorkspaceForm({
 
   const handleCreate = async () => {
     if (!name.trim()) {
-      toast.error("Workspace name required");
+      toast.error("Workspace name is required");
       return;
     }
 
