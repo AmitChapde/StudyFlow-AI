@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 import { Types } from "mongoose";
-import { IUser } from "./user.types";
+
+
+
+export interface IUserPreview {
+  _id: string;
+  name: string;
+  email: string;
+}
 
 export type Role = "ADMIN" | "MEMBER";
 
@@ -10,9 +17,9 @@ export interface CreateWorkspaceInput {
 }
 
 export interface IWorkspace {
-   _id: string;
+  _id: string;
   name: string;
-  createdBy: IUser | Types.ObjectId;
+  createdBy: string | IUserPreview;
 }
 
 export interface WorkspaceWithRole {

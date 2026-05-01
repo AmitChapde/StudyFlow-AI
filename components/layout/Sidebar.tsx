@@ -9,7 +9,7 @@ export default function Sidebar() {
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen border-r bg-white px-4 py-6">
       
-      {/* Logo / App Name */}
+    
       <div className="mb-6">
         <h2 className="text-xl font-bold tracking-tight">
           StudyFlow AI
@@ -19,7 +19,7 @@ export default function Sidebar() {
 
       <Separator />
 
-      {/* Navigation */}
+    
       <nav className="flex flex-col gap-2 mt-6">
         <Link
           href="/dashboard"
@@ -29,14 +29,14 @@ export default function Sidebar() {
           Dashboard
         </Link>
 
-        {/* Future AI Feature */}
-        <Link
+       
+        {/* <Link
           href="#"
           className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-400 cursor-not-allowed"
         >
           <Sparkles size={18} />
           AI Goals
-        </Link>
+        </Link> */}
       </nav>
 
       {/* Bottom Section */}
