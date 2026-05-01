@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getCurrentUser } from "@/lib/getCurrentUser";
@@ -17,11 +18,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { title, workspaceId } = body;
 
-      
     if (!title || !workspaceId) {
       return NextResponse.json(
         { message: "Title and workspaceId required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -31,23 +31,21 @@ export async function POST(req: Request) {
       createdBy: user.userId,
     });
 
-   
     const aiResponse = await generateTasksFromGoal(title);
 
     console.log("AI RESPONSE:", aiResponse);
 
-   
     const createdTasks = await Task.insertMany(
       aiResponse.tasks.map((t: any) => ({
         title: t.title,
         description: t.description,
         goalId: goal._id,
-      }))
+        createdBy: new mongoose.Types.ObjectId(user.userId),
+      })),
     );
 
     console.log("CREATED TASKS:", createdTasks.length);
 
-  
     return NextResponse.json({
       success: true,
       data: {
@@ -60,7 +58,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       { message: "Error generating tasks" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -15,8 +15,13 @@ const taskSchema = new Schema<ITaskDB>(
       enum: ["TODO", "IN_PROGRESS", "DONE"],
       default: "TODO",
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Task = models.Task || mongoose.model("Task", taskSchema);

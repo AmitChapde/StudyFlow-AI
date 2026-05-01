@@ -13,4 +13,5 @@ export interface ITaskDB {
   description?: string;
   status: "TODO" | "IN_PROGRESS" | "DONE";
   steps?: string[];
+  createdBy: mongoose.Types.ObjectId;
 }
