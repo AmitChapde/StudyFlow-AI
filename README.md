@@ -156,11 +156,11 @@ Create a local environment file:
 cp .env.example .env.local
 ```
 
-If `.env.example` does not exist yet, create `.env.local` manually with the variables below.
+ As per `.env.example` , create `.env.local` manually with the variables below.
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_long_random_jwt_secret
+JWT_SECRET=your_jwt_secret
 GEMINI_API_KEY=your_gemini_api_key
 PORT=3000
 ```
@@ -192,7 +192,17 @@ npm run start
 npm run lint
 ```
 
-## Environment Variables
+### Test
+
+```bash
+npm test
+```
+
+The Jest suite covers authentication token verification, due-date labels, task service updates/deletes, workspace creation, workspace membership defaults, workspace listing, and workspace lookup behavior. External services and database writes are mocked so tests run safely without changing application data.
+
+
+
+## Environment Variable
 
 | Variable | Required | Description |
 | --- | --- | --- |
@@ -334,7 +344,6 @@ The project already includes the foundation for role-based access control:
 
 ## Known Improvement Areas
 
-- Add automated tests for auth, workspace access, AI response parsing, and task updates.
 - Add full RBAC enforcement to all workspace-scoped API routes.
 - Add member invitation and management UI.
 - Persist AI-expanded task steps if users need them across refreshes.
