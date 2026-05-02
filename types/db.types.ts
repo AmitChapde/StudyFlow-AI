@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+export type TaskPriority = "LOW" | "MEDIUM" | "HIGH";
+
 export interface IGoalDB {
   title: string;
   description?: string;
@@ -14,4 +16,6 @@ export interface ITaskDB {
   status: "TODO" | "IN_PROGRESS" | "DONE";
   steps?: string[];
   createdBy: mongoose.Types.ObjectId;
+  dueDate?: string | null;
+  priority?: TaskPriority;
 }

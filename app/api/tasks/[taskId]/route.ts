@@ -11,6 +11,7 @@ export async function PATCH(
   req: Request,
   context: { params: Promise<{ taskId: string }> },
 ) {
+  
   try {
     const { taskId } = await context.params;
 
@@ -22,7 +23,7 @@ export async function PATCH(
     }
 
     const body = await req.json();
-    const { status, title, description } = body;
+    const { status, title, description, dueDate, priority } = body;
 
     let updated;
 
@@ -30,10 +31,19 @@ export async function PATCH(
       updated = await updateTaskStatus(taskId, status);
     }
 
-    if (title || description) {
+    if (
+      title !== undefined ||
+      description !== undefined ||
+      dueDate !== undefined ||
+      priority !== undefined
+    ) {
       updated = await updateTaskContent(taskId, {
-        title,
-        description,
+        ...(title !== undefined && { title }),
+        ...(description !== undefined && { description }),
+        ...(dueDate !== undefined && {
+          dueDate: dueDate ? new Date(dueDate) : null,
+        }),
+        ...(priority !== undefined && { priority }),
       });
     }
 

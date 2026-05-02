@@ -12,13 +12,23 @@ const taskSchema = new Schema<ITaskDB>(
     description: String,
     status: {
       type: String,
-      enum: ["TODO", "IN_PROGRESS", "DONE"],
+      enum: ["TODO", "DONE"],
       default: "TODO",
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+    },
+    priority: {
+      type: String,
+      enum: ["LOW", "MEDIUM", "HIGH"],
+      default: "MEDIUM",
+    },
+
+    dueDate: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true },

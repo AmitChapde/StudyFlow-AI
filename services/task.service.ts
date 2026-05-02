@@ -17,16 +17,22 @@ export const updateTaskStatus = async (
   );
 };
 
-
 export const updateTaskContent = async (
   taskId: string,
-  payload: { title?: string; description?: string }
+  payload: {
+    title?: string;
+    description?: string;
+    dueDate?: Date | null;
+    priority?: "LOW" | "MEDIUM" | "HIGH";
+  }
 ) => {
   if (!mongoose.Types.ObjectId.isValid(taskId)) {
     throw new Error("Invalid taskId");
   }
 
-  return Task.findByIdAndUpdate(taskId, payload, { new: true });
+  return Task.findByIdAndUpdate(taskId, payload, {
+    new: true,
+  });
 };
 
 export const deleteTaskById = async (taskId: string) => {

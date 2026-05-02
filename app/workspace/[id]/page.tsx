@@ -26,7 +26,7 @@ export default function WorkspacePage() {
     setTasks(res.data || []);
   };
 
-  useEffect(() => {
+  useEffect(() => { 
     if (!workspaceId) return;
 
     const load = async () => {
