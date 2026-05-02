@@ -6,6 +6,15 @@ import { Goal } from "@/models/Goal";
 import { Task } from "@/models/Task";
 import { generateTasksFromGoal } from "@/services/ai.service";
 
+type GeneratedTask = {
+  title: string;
+  description?: string;
+};
+
+type GeneratedTasksResponse = {
+  tasks: GeneratedTask[];
+};
+
 export async function POST(req: Request) {
   try {
     await connectDB();
@@ -31,20 +40,18 @@ export async function POST(req: Request) {
       createdBy: user.userId,
     });
 
-    const aiResponse = await generateTasksFromGoal(title);
-
-    console.log("AI RESPONSE:", aiResponse);
+    const aiResponse = (await generateTasksFromGoal(
+      title,
+    )) as GeneratedTasksResponse;
 
     const createdTasks = await Task.insertMany(
-      aiResponse.tasks.map((t: any) => ({
+      aiResponse.tasks.map((t) => ({
         title: t.title,
         description: t.description,
         goalId: goal._id,
         createdBy: new mongoose.Types.ObjectId(user.userId),
       })),
     );
-
-    console.log("CREATED TASKS:", createdTasks.length);
 
     return NextResponse.json({
       success: true,

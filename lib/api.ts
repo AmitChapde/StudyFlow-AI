@@ -1,4 +1,4 @@
-export async function apiFetch(url: string, options?: RequestInit) {
+export async function apiFetch<T = unknown>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, {
     ...options,
     headers: {
@@ -13,5 +13,5 @@ export async function apiFetch(url: string, options?: RequestInit) {
     throw new Error(data.message || "Something went wrong");
   }
 
-  return data;
+  return data as T;
 }

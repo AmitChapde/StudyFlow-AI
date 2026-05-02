@@ -20,7 +20,7 @@ export default function MobileSidebar({
 }) {
   return (
     <div className="md:hidden flex items-center justify-between px-4 py-3 border-b bg-slate-900 text-white transition-all duration-300">
-      <h2 className="font-semibold">StudyFlow AI</h2>
+      <h2 className="font-semibold">AI Workspace</h2>
 
       <Sheet>
         <SheetTrigger asChild>
@@ -31,7 +31,7 @@ export default function MobileSidebar({
 
         <SheetContent side="left" className="w-64">
           <SheetHeader>
-            <SheetTitle>StudyFlow AI</SheetTitle>
+            <SheetTitle>AI Workspace</SheetTitle>
           </SheetHeader>
 
           <div className="mt-6 flex flex-col gap-2">

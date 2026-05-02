@@ -6,7 +6,19 @@ import TaskChart from "@/components/dashboard/TaskChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { IWorkspace } from "@/types/workspace.types";
 
+type WorkspaceStats = {
+  totalTasks: number;
+  completedTasks: number;
+  pendingTasks: number;
+  completionRate: number;
+};
+
+type WorkspaceResponse = {
+  success: boolean;
+  data: IWorkspace;
+};
 
 export default function WorkspaceDashboard({
   params,
@@ -15,8 +27,8 @@ export default function WorkspaceDashboard({
 }) {
   const { id } = use(params);
 
-  const [stats, setStats] = useState<any>(null);
-  const [workspace, setWorkspace] = useState<any>(null);
+  const [stats, setStats] = useState<WorkspaceStats | null>(null);
+  const [workspace, setWorkspace] = useState<IWorkspace | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +38,8 @@ export default function WorkspaceDashboard({
           fetch(`/api/workspaces/${id}`),
         ]);
 
-        const statsData = await statsRes.json();
-        const workspaceData = await workspaceRes.json();
+        const statsData = (await statsRes.json()) as WorkspaceStats;
+        const workspaceData = (await workspaceRes.json()) as WorkspaceResponse;
 
         setStats(statsData);
         setWorkspace(workspaceData.data);
@@ -62,7 +74,10 @@ export default function WorkspaceDashboard({
           {workspace.name} Insights
         </h1>
         <p className="text-sm text-muted-foreground">
-          Owner: {workspace.createdBy?.name || "Unknown"}
+          Owner:{" "}
+          {typeof workspace.createdBy === "object"
+            ? workspace.createdBy.name
+            : "Unknown"}
         </p>
       </div>
 

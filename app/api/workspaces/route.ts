@@ -6,6 +6,10 @@ import {
   getUserWorkspaces,
 } from "@/services/workspace.service";
 
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
+
 export async function POST(req: Request) {
   try {
     await connectDB();
@@ -26,11 +30,11 @@ export async function POST(req: Request) {
 
     const data = await createWorkspace({
       name: body.name,
-      userId: (user as any).userId,
+      userId: user.userId,
     });
 
     return NextResponse.json({ success: true, data });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { message: "Error creating workspace" },
       { status: 500 },
@@ -39,22 +43,20 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  try { 
+  try {
     await connectDB();
 
     const user = await getCurrentUser();
-    console.log("USER:", user);
     if (!user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const workspaces = await getUserWorkspaces(user.userId);
-   
 
     return NextResponse.json({ success: true, data: workspaces });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { message: err.message || "Error fetching workspaces" },
+      { message: getErrorMessage(err, "Error fetching workspaces") },
       { status: 500 },
     );
   }

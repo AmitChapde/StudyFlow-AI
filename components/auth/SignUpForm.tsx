@@ -37,7 +37,7 @@ export default function SignUpForm() {
 
       toast.success("Account created");
       router.push("/login");
-    } catch (err) {
+    } catch {
       toast.error("Signup failed");
     } finally {
       setLoading(false);

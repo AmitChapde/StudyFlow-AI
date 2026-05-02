@@ -21,7 +21,7 @@ export async function GET(
     }
 
     return NextResponse.json({ success: true, data: workspace });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }

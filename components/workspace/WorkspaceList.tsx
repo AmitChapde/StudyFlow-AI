@@ -3,15 +3,21 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import WorkspaceCard from "./WorkspaceCard";
+import { WorkspaceWithRole } from "@/types/workspace.types";
+
+type WorkspacesResponse = {
+  success: boolean;
+  data: WorkspaceWithRole[];
+};
 
 export default function WorkspaceList({ refresh }: { refresh: number }) {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<WorkspaceWithRole[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchWorkspaces = async () => {
     try {
       setLoading(true);
-      const res = await apiFetch("/api/workspaces");
+      const res = await apiFetch<WorkspacesResponse>("/api/workspaces");
       setData(res.data);
     } finally {
       setLoading(false);
@@ -29,7 +35,7 @@ export default function WorkspaceList({ refresh }: { refresh: number }) {
   if (!data.length) {
     return (
       <p className="text-sm text-gray-500">
-        No workspaces yet. Create one above 🚀
+        No workspaces yet. Create one above 
       </p>
     );
   }

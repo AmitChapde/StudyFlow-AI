@@ -4,6 +4,10 @@ import { connectDB } from "@/lib/db";
 import { Task } from "@/models/Task";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
+
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -77,9 +81,9 @@ export async function GET(
       pendingTasks,
       completionRate,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { message: error.message || "Error fetching stats" },
+      { message: getErrorMessage(error, "Error fetching stats") },
       { status: 500 },
     );
   }

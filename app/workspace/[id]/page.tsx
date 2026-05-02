@@ -1,30 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import CreateGoalForm from "@/components/goal/CreateGoalForm";
 import TaskList from "@/components/task/TaskList";
 import { ITask } from "@/types/task.types";
+import { IWorkspace } from "@/types/workspace.types";
 import { Card, CardContent } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+
+type WorkspaceResponse = {
+  success: boolean;
+  data: IWorkspace;
+};
+
+type TasksResponse = {
+  success: boolean;
+  data: ITask[];
+};
 
 export default function WorkspacePage() {
   const params = useParams();
   const workspaceId = params.id as string;
 
-  const [workspace, setWorkspace] = useState<any>(null);
+  const [workspace, setWorkspace] = useState<IWorkspace | null>(null);
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchWorkspace = async () => {
-    const res = await apiFetch(`/api/workspaces/${workspaceId}`);
+  const fetchWorkspace = useCallback(async () => {
+    const res = await apiFetch<WorkspaceResponse>(`/api/workspaces/${workspaceId}`);
     setWorkspace(res.data);
-  };
+  }, [workspaceId]);
 
-  const fetchTasks = async () => {
-    const res = await apiFetch(`/api/tasks?workspaceId=${workspaceId}`);
+  const fetchTasks = useCallback(async () => {
+    const res = await apiFetch<TasksResponse>(`/api/tasks?workspaceId=${workspaceId}`);
     setTasks(res.data || []);
-  };
+  }, [workspaceId]);
 
   useEffect(() => { 
     if (!workspaceId) return;
@@ -40,10 +52,14 @@ export default function WorkspacePage() {
     };
 
     load();
-  }, [workspaceId]);
+  }, [fetchTasks, fetchWorkspace, workspaceId]);
 
   if (loading) {
-    return <p className="text-sm text-gray-500">Loading workspace...</p>;
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
+      </div>
+    );
   }
 
   if (!workspace) {
@@ -56,7 +72,10 @@ export default function WorkspacePage() {
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold">{workspace.name}</h1>
         <p className="text-sm text-gray-500">
-          Owner: {workspace.createdBy?.name}
+          Owner:{" "}
+          {typeof workspace.createdBy === "object"
+            ? workspace.createdBy.name
+            : "Unknown"}
         </p>
       </div>
 

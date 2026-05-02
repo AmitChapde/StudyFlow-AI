@@ -36,7 +36,7 @@ export default function LoginForm() {
 
       toast.success("Welcome back");
       router.push("/dashboard");
-    } catch (err) {
+    } catch {
       toast.error("Invalid credentials");
     } finally {
       setLoading(false);

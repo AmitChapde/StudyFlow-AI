@@ -4,6 +4,16 @@ import { getCurrentUser } from "@/lib/getCurrentUser";
 import { Task } from "@/models/Task";
 import { Goal } from "@/models/Goal";
 
+function serializeDate(value: Date | string | null | undefined) {
+  if (!value) return null;
+
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  return value;
+}
+
 export async function GET(req: Request) {
   try {
     await connectDB();
@@ -36,12 +46,19 @@ export async function GET(req: Request) {
       data: tasks.map((t) => ({
         _id: t._id.toString(),
         title: t.title,
-        description: t.description, 
+        description: t.description,
         status: t.status,
         goalId: t.goalId.toString(),
+        createdBy: t.createdBy?.toString() || "",
+        dueDate: serializeDate(t.dueDate),
+        priority: t.priority,
+        createdAt: serializeDate(t.createdAt) || "",
+        updatedAt: serializeDate(t.updatedAt) || "",
       })),
     });
   } catch (err) {
+    console.error("TASK FETCH ERROR:", err);
+
     return NextResponse.json(
       { message: "Error fetching tasks" },
       { status: 500 },

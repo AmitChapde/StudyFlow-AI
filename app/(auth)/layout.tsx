@@ -5,8 +5,16 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      {children}
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-md space-y-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            AI Workspace
+          </h1>
+        </div>
+
+        {children}
+      </div>
     </div>
   );
 }

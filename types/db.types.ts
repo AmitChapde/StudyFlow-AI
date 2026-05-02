@@ -13,9 +13,11 @@ export interface ITaskDB {
   goalId: mongoose.Types.ObjectId;
   title: string;
   description?: string;
-  status: "TODO" | "IN_PROGRESS" | "DONE";
+  status: "TODO" | "DONE";
   steps?: string[];
   createdBy: mongoose.Types.ObjectId;
-  dueDate?: string | null;
+  dueDate?: Date | null;
   priority?: TaskPriority;
+  createdAt: Date;
+  updatedAt: Date;
 }

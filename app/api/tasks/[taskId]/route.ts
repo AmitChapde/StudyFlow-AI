@@ -7,6 +7,10 @@ import {
   deleteTaskById,
 } from "@/services/task.service";
 
+function getErrorMessage(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
+
 export async function PATCH(
   req: Request,
   context: { params: Promise<{ taskId: string }> },
@@ -48,9 +52,9 @@ export async function PATCH(
     }
 
     return NextResponse.json({ success: true, data: updated });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { message: err.message || "Error updating task" },
+      { message: getErrorMessage(err, "Error updating task") },
       { status: 500 },
     );
   }
@@ -73,9 +77,9 @@ export async function DELETE(
     await deleteTaskById(taskId);
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { message: err.message || "Error deleting task" },
+      { message: getErrorMessage(err, "Error deleting task") },
       { status: 500 },
     );
   }

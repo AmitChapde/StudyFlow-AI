@@ -16,7 +16,7 @@ export default function Sidebar({ workspaceId }: { workspaceId?: string }) {
       ${collapsed ? "w-16" : "w-64"}`}
     >
       <div className="flex items-center justify-between px-4 py-4">
-        {!collapsed && <h2 className="text-lg font-bold">StudyFlow</h2>}
+        {!collapsed && <h2 className="text-lg font-bold">AI Workspace</h2>}
 
         <Button
           variant="ghost"

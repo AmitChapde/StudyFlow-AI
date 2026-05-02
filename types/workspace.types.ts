@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { Types } from "mongoose";
 
 export interface IUserPreview {
@@ -11,7 +10,7 @@ export type Role = "ADMIN" | "MEMBER";
 
 export interface CreateWorkspaceInput {
   name: string;
-  userId: Types.ObjectId;
+  userId: string;
 }
 
 export interface IWorkspace {
@@ -32,7 +31,7 @@ export interface IWorkspaceMember {
 }
 
 export type CreateWorkspaceMemberInput = {
-  workspaceId: mongoose.Types.ObjectId;
-  userId: mongoose.Types.ObjectId;
+  workspaceId: Types.ObjectId;
+  userId: Types.ObjectId;
   role?: "ADMIN" | "MEMBER";
 };

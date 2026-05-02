@@ -6,6 +6,18 @@ import { apiFetch } from "@/lib/api";
 import { getDueLabelAndStyle } from "@/lib/task-utils";
 import { Wand2 } from "lucide-react";
 
+type TaskUpdateResponse = {
+  success: boolean;
+  data: ITask;
+};
+
+type TaskExpandResponse = {
+  success: boolean;
+  data: {
+    steps?: string[];
+  };
+};
+
 export default function TaskItem({
   task,
   onChange,
@@ -55,14 +67,14 @@ export default function TaskItem({
     setEditing(false);
     skipNextSync.current = true;
 
-    const res = await apiFetch(`/api/tasks/${task._id}`, {
+    const res = await apiFetch<TaskUpdateResponse>(`/api/tasks/${task._id}`, {
       method: "PATCH",
       body: JSON.stringify({ title, dueDate: dueDate || null, priority }),
     });
 
     const updated = res.data;
     setTitle(updated.title);
-    setPriority(updated.priority);
+    setPriority(updated.priority || "MEDIUM");
     setDueDate(updated.dueDate ? updated.dueDate.split("T")[0] : "");
     onChange?.();
   };
@@ -70,7 +82,7 @@ export default function TaskItem({
   const handleExpand = async () => {
     setLoading(true);
     try {
-      const res = await apiFetch("/api/tasks/expand", {
+      const res = await apiFetch<TaskExpandResponse>("/api/tasks/expand", {
         method: "POST",
         body: JSON.stringify({ task: task.title }),
       });
